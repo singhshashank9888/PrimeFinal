@@ -148,12 +148,12 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-          {/* --- ADMIN LOGIN BUTTON --- */}
-         <Link
-  to="/admin-login"
+         {/* --- ADMIN LOGIN BUTTON --- */}
+<Link
+  to="/admin/dashboard" // Changed from /admin-login
   className="ml-6 px-4 py-2 text-[12px] uppercase tracking-[0.25em] font-bold text-white bg-[hsl(222,47%,11%)] hover:bg-[hsl(222,47%,18%)] rounded-xl transition-all"
 >
-  Admin Login
+  Admin Dashboard
 </Link>
         </div>
 
@@ -230,13 +230,13 @@ const Navbar = () => {
             </NavLink>
           ))}
 
-         {/* --- ADMIN LOGIN BUTTON MOBILE --- */}
+ {/* --- ADMIN LOGIN BUTTON MOBILE --- */}
 <Link
-  to="/admin-login"
+  to="/admin/dashboard" // Changed from /admin-login
   onClick={() => setIsOpen(false)}
   className="block text-4xl font-serif tracking-tight text-white bg-[hsl(222,47%,11%)] py-4 px-6 rounded-xl text-center hover:bg-[hsl(222,47%,18%)] transition-all"
 >
-  Admin Login
+  Admin Dashboard
 </Link>
 
           <div className="pt-10">
