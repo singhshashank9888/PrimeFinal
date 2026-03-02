@@ -48,7 +48,6 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
-
         {/* --- LOGO --- */}
         <Link to="/" className="flex items-center gap-3 group">
           <img
@@ -69,7 +68,6 @@ const Navbar = () => {
 
         {/* --- DESKTOP NAV --- */}
         <div className="hidden md:flex items-center space-x-10 relative">
-
           {/* Normal Links Before Departments */}
           {navLinks.slice(0, 2).map((link) => (
             <NavLink
@@ -149,6 +147,14 @@ const Navbar = () => {
               )}
             </NavLink>
           ))}
+
+          {/* --- ADMIN LOGIN BUTTON --- */}
+         <Link
+  to="/admin-login"
+  className="ml-6 px-4 py-2 text-[12px] uppercase tracking-[0.25em] font-bold text-white bg-[hsl(222,47%,11%)] hover:bg-[hsl(222,47%,18%)] rounded-xl transition-all"
+>
+  Admin Login
+</Link>
         </div>
 
         {/* --- MOBILE BUTTON --- */}
@@ -223,6 +229,15 @@ const Navbar = () => {
               {link.name}
             </NavLink>
           ))}
+
+         {/* --- ADMIN LOGIN BUTTON MOBILE --- */}
+<Link
+  to="/admin-login"
+  onClick={() => setIsOpen(false)}
+  className="block text-4xl font-serif tracking-tight text-white bg-[hsl(222,47%,11%)] py-4 px-6 rounded-xl text-center hover:bg-[hsl(222,47%,18%)] transition-all"
+>
+  Admin Login
+</Link>
 
           <div className="pt-10">
             <p className="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase mb-4">
