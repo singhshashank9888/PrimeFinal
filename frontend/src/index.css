@@ -1,0 +1,98 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap'); */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 10%; /* Slightly adjusted to match new primary depth */
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 10%;
+
+    /* --- UPDATED TO RGBA(15, 23, 42) EQUIVALENT --- */
+    --primary: 222 47% 11%; 
+    --primary-foreground: 0 0% 100%;
+
+    /* Adjusted secondary to be a light wash of the new primary */
+    --secondary: 222 20% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 222 15% 96%;
+    --muted-foreground: 222 10% 45%;
+
+    --accent: 30 80% 52%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 15% 90%;
+    --input: 222 15% 90%;
+    --ring: 222 47% 11%;
+
+    --radius: 0.75rem;
+
+    --emergency: 0 72% 51%;
+    --emergency-foreground: 0 0% 100%;
+
+    --hero-overlay: 222 47% 11%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 222 47% 11%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 222 47% 11%;
+
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  .dark {
+    --background: 222 47% 4%;
+    --foreground: 0 0% 95%;
+    --card: 222 47% 6%;
+    --card-foreground: 0 0% 95%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 0 0% 95%;
+    
+    /* Brighter version of your blue for dark mode visibility */
+    --primary: 222 47% 25%; 
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 222 30% 12%;
+    --secondary-foreground: 222 47% 80%;
+    --muted: 222 20% 12%;
+    --muted-foreground: 222 10% 60%;
+    --border: 222 20% 18%;
+    --input: 222 20% 18%;
+    --ring: 222 47% 25%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
