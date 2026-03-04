@@ -153,7 +153,7 @@ const Navbar = () => {
   to="/admin/dashboard" // Changed from /admin-login
   className="ml-6 px-4 py-2 text-[12px] uppercase tracking-[0.25em] font-bold text-white bg-[hsl(222,47%,11%)] hover:bg-[hsl(222,47%,18%)] rounded-xl transition-all"
 >
-  Admin Dashboard
+  Admin 
 </Link>
         </div>
 
@@ -236,7 +236,7 @@ const Navbar = () => {
   onClick={() => setIsOpen(false)}
   className="block text-4xl font-serif tracking-tight text-white bg-[hsl(222,47%,11%)] py-4 px-6 rounded-xl text-center hover:bg-[hsl(222,47%,18%)] transition-all"
 >
-  Admin Dashboard
+  Admin  
 </Link>
 
           <div className="pt-10">
