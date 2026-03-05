@@ -26,8 +26,16 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
+    
+    // Prevent background scrolling when mobile menu is open
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isOpen]);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -41,22 +49,22 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-[100] transition-all duration-500 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur-2xl py-4 shadow-md border-b border-slate-100"
-          : "bg-white py-6"
+      className={`sticky top-0 z-[100] w-full transition-all duration-300 ${
+        scrolled || isOpen
+          ? "bg-white py-3 shadow-lg border-b border-slate-100"
+          : "bg-white py-5"
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* --- LOGO --- */}
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group relative z-[110]">
           <img
             src="/logo.jpg"
             alt="Prime Hospital Logo"
-            className="h-12 w-auto object-contain transition-transform duration-700 group-hover:rotate-[360deg]"
+            className="h-10 md:h-12 w-auto object-contain transition-transform duration-700 group-hover:rotate-[360deg]"
           />
           <div className="flex flex-col leading-none">
-            <span className="font-serif text-2xl tracking-tighter text-slate-950">
+            <span className="font-serif text-xl md:text-2xl tracking-tighter text-slate-950">
               <span className="font-light">PRIME</span>{" "}
               <span className="font-black">HOSPITAL</span>
             </span>
@@ -67,185 +75,106 @@ const Navbar = () => {
         </Link>
 
         {/* --- DESKTOP NAV --- */}
-        <div className="hidden md:flex items-center space-x-10 relative">
-          {/* Normal Links Before Departments */}
+        <div className="hidden lg:flex items-center space-x-8">
           {navLinks.slice(0, 2).map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className="relative text-[12px] uppercase tracking-[0.25em] transition-all duration-300 hover:scale-110 text-slate-500 font-bold hover:text-slate-950"
-            >
+            <NavLink key={link.path} to={link.path} className="nav-link-style">
               {({ isActive }) => (
-                <span className="flex flex-col items-center group">
+                <span className="flex flex-col items-center group text-[11px] uppercase tracking-widest font-bold text-slate-500 hover:text-black">
                   {link.name}
-                  <span
-                    className={`h-[3px] bg-slate-950 mt-1 transition-all duration-500 rounded-full ${
-                      isActive ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-full"
-                    }`}
-                  />
+                  <span className={`h-[2px] bg-black transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
                 </span>
               )}
             </NavLink>
           ))}
 
-          {/* --- DEPARTMENTS DROPDOWN --- */}
-          <div
-            className="relative"
-            onMouseEnter={() => setDeptOpen(true)}
-            onMouseLeave={() => setDeptOpen(false)}
-          >
-            <button className="relative text-[12px] uppercase tracking-[0.25em] transition-all duration-300 hover:scale-110 text-slate-500 font-bold hover:text-slate-950 flex flex-col items-center">
-              <span className="flex items-center gap-1">
-                Departments <ChevronDown size={12} />
-              </span>
+          {/* DEPARTMENTS DROPDOWN */}
+          <div className="relative" onMouseEnter={() => setDeptOpen(true)} onMouseLeave={() => setDeptOpen(false)}>
+            <button className="text-[11px] uppercase tracking-widest font-bold text-slate-500 flex items-center gap-1">
+              Departments <ChevronDown size={12} />
             </button>
-
-            <div
-              className={`absolute top-10 left-0 bg-white shadow-xl rounded-2xl p-6 w-72 border border-slate-100 transition-all duration-300 ${
-                deptOpen
-                  ? "opacity-100 visible translate-y-0"
-                  : "opacity-0 invisible -translate-y-3"
-              }`}
-            >
-              {/* VIEW ALL */}
-              <Link
-                to="/departments"
-                className="block text-[12px] uppercase tracking-[0.25em] font-black text-slate-950 pb-3 border-b border-slate-100 mb-3 hover:opacity-70 transition"
-              >
-                View All Departments
-              </Link>
-
-              {/* INDIVIDUAL DEPARTMENTS */}
-              {departmentLinks.map((dept) => (
-                <Link
-                  key={dept.path}
-                  to={dept.path}
-                  className="block text-[12px] uppercase tracking-[0.15em] text-slate-500 font-bold hover:text-slate-950 py-2 transition-all"
-                >
-                  {dept.name}
-                </Link>
-              ))}
+            <div className={`absolute top-full left-0 bg-white shadow-2xl rounded-xl p-6 w-72 border border-slate-100 transition-all ${deptOpen ? "opacity-100 visible translate-y-2" : "opacity-0 invisible"}`}>
+              <Link to="/departments" className="block text-[11px] font-black border-b pb-2 mb-2">VIEW ALL</Link>
+              <div className="grid gap-2">
+                {departmentLinks.map((dept) => (
+                  <Link key={dept.path} to={dept.path} className="text-[11px] text-slate-500 hover:text-black transition-colors">{dept.name}</Link>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Remaining Links */}
           {navLinks.slice(2).map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className="relative text-[12px] uppercase tracking-[0.25em] transition-all duration-300 hover:scale-110 text-slate-500 font-bold hover:text-slate-950"
-            >
-              {({ isActive }) => (
-                <span className="flex flex-col items-center group">
+            <NavLink key={link.path} to={link.path} className="nav-link-style">
+               {({ isActive }) => (
+                <span className="flex flex-col items-center group text-[11px] uppercase tracking-widest font-bold text-slate-500 hover:text-black">
                   {link.name}
-                  <span
-                    className={`h-[3px] bg-slate-950 mt-1 transition-all duration-500 rounded-full ${
-                      isActive ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-full"
-                    }`}
-                  />
+                  <span className={`h-[2px] bg-black transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
                 </span>
               )}
             </NavLink>
           ))}
 
-         {/* --- ADMIN LOGIN BUTTON --- */}
-<Link
-  to="/admin/dashboard" // Changed from /admin-login
-  className="ml-6 px-4 py-2 text-[12px] uppercase tracking-[0.25em] font-bold text-white bg-[hsl(222,47%,11%)] hover:bg-[hsl(222,47%,18%)] rounded-xl transition-all"
->
-  Admin 
-</Link>
+          <Link to="/admin/dashboard" className="bg-slate-950 text-white px-5 py-2 rounded-lg text-[11px] font-bold tracking-widest hover:bg-slate-800 transition-all">
+            ADMIN
+          </Link>
         </div>
 
         {/* --- MOBILE BUTTON --- */}
         <button
-          className="md:hidden text-slate-950 p-2 hover:bg-slate-50 rounded-xl transition-colors"
+          className="lg:hidden relative z-[110] text-slate-950 p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} strokeWidth={2.5} />}
+          {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* --- MOBILE MENU --- */}
+        {/* --- MOBILE MENU OVERLAY --- */}
         <div
-          className={`fixed inset-0 top-[88px] w-full bg-white/95 backdrop-blur-xl
-          px-10 py-12 flex flex-col space-y-8 transition-all duration-500 md:hidden
-          ${isOpen ? "opacity-100 visible translate-x-0" : "opacity-0 invisible translate-x-full"}`}
+          className={`fixed inset-0 bg-white z-[100] flex flex-col pt-24 px-8 transition-transform duration-500 ease-in-out lg:hidden overflow-y-auto ${
+            isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         >
-          {/* Normal Links */}
-          {navLinks.slice(0, 2).map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
+          <div className="flex flex-col space-y-6 pb-12">
+            {navLinks.slice(0, 2).map((link) => (
+              <NavLink key={link.path} to={link.path} onClick={() => setIsOpen(false)} className="text-3xl font-serif border-b border-slate-50 pb-2">
+                {link.name}
+              </NavLink>
+            ))}
+
+            {/* Mobile Dept Accordion */}
+            <div>
+              <button 
+                onClick={() => setMobileDeptOpen(!mobileDeptOpen)}
+                className="text-3xl font-serif flex justify-between items-center w-full border-b border-slate-50 pb-2"
+              >
+                Departments <ChevronDown className={mobileDeptOpen ? "rotate-180" : ""} />
+              </button>
+              {mobileDeptOpen && (
+                <div className="bg-slate-50 rounded-xl p-4 mt-2 grid gap-4">
+                  <Link to="/departments" onClick={() => setIsOpen(false)} className="font-bold text-slate-900">View All</Link>
+                  {departmentLinks.map(dept => (
+                    <Link key={dept.path} to={dept.path} onClick={() => setIsOpen(false)} className="text-slate-600">{dept.name}</Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {navLinks.slice(2).map((link) => (
+              <NavLink key={link.path} to={link.path} onClick={() => setIsOpen(false)} className="text-3xl font-serif border-b border-slate-50 pb-2">
+                {link.name}
+              </NavLink>
+            ))}
+
+            <Link
+              to="/admin/dashboard"
               onClick={() => setIsOpen(false)}
-              className="text-4xl font-serif tracking-tight border-b border-slate-100 pb-4"
+              className="bg-slate-950 text-white text-center py-4 rounded-xl font-bold tracking-widest"
             >
-              {link.name}
-            </NavLink>
-          ))}
+              ADMIN ACCESS
+            </Link>
 
-          {/* Mobile Departments */}
-          <div>
-            <button
-              onClick={() => setMobileDeptOpen(!mobileDeptOpen)}
-              className="text-4xl font-serif tracking-tight pb-4 flex items-center justify-between w-full"
-            >
-              Departments
-              <ChevronDown
-                className={`transition-transform ${mobileDeptOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-
-            {mobileDeptOpen && (
-              <div className="pl-4 space-y-4 mt-4">
-                <Link
-                  to="/departments"
-                  onClick={() => setIsOpen(false)}
-                  className="block text-2xl font-bold text-slate-950"
-                >
-                  View All Departments
-                </Link>
-
-                {departmentLinks.map((dept) => (
-                  <Link
-                    key={dept.path}
-                    to={dept.path}
-                    onClick={() => setIsOpen(false)}
-                    className="block text-xl text-slate-500"
-                  >
-                    {dept.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {navLinks.slice(2).map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              onClick={() => setIsOpen(false)}
-              className="text-4xl font-serif tracking-tight border-b border-slate-100 pb-4"
-            >
-              {link.name}
-            </NavLink>
-          ))}
-
- {/* --- ADMIN LOGIN BUTTON MOBILE --- */}
-<Link
-  to="/admin/dashboard" // Changed from /admin-login
-  onClick={() => setIsOpen(false)}
-  className="block text-4xl font-serif tracking-tight text-white bg-[hsl(222,47%,11%)] py-4 px-6 rounded-xl text-center hover:bg-[hsl(222,47%,18%)] transition-all"
->
-  Admin  
-</Link>
-
-          <div className="pt-10">
-            <p className="text-[10px] font-bold tracking-[0.3em] text-slate-400 uppercase mb-4">
-              Emergency Contact
-            </p>
-            <a href="tel:021517777" className="text-2xl font-black text-red-600">
-              021-517777
-            </a>
+            <div className="mt-8 p-6 bg-red-50 rounded-2xl">
+              <p className="text-xs font-bold text-red-400 tracking-widest uppercase mb-1">Emergency</p>
+              <a href="tel:021517777" className="text-2xl font-black text-red-600">021-517777</a>
+            </div>
           </div>
         </div>
       </div>
