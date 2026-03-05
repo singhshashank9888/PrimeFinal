@@ -3,14 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import connectDB from './config/database.js';
-import authRoutes from './routes/auth.js';
-import userRoutes from './routes/users.js';
-import productRoutes from './routes/products.js';
-import patientRoutes from './routes/patients.js';
-import appointmentRoutes from './routes/appointments.js';
-import messageRoutes from './routes/messages.js';
-import reportRoutes from './routes/reports.js';
+import connectDB from './src/config/database.js';
+import authRoutes from './src/routes/auth.js';
+import userRoutes from './src/routes/users.js';
+import productRoutes from './src/routes/products.js';
+import patientRoutes from './src/routes/patients.js';
+import appointmentRoutes from './src/routes/appointments.js';
+import messageRoutes from './src/routes/messages.js';
+import reportRoutes from './src/routes/reports.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,6 +31,13 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 connectDB();
 
 // Routes
+// Add this to test the root path
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Welcome to the PrimeFinal API!"
+  });
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
